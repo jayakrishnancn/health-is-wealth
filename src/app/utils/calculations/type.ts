@@ -2,14 +2,16 @@
 
 export enum Inputs {
     HeightInCM = "heightInCM",
-    WeightInCM = "weightInCM",
-    WaistInCm = "waistInCM"
+    WeightInKg = "weightInKg",
+    WaistInCm = "waistInCM",
+    Sex = "sex"
 }
 
 export type Measurements = {
     heightInCM: number;
     weightInKg: number;
     waistInCM: number;
+    sex: 'Male' | 'Female'
 }
 
 export type CalculationMethodResult = {

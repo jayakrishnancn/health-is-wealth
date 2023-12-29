@@ -11,16 +11,22 @@ export const bmi = (inputs: Measurements): CalculateResultType | null => {
 
     const weight = inputs.weightInKg;
     const height = inputs.heightInCM / 100;
-    const bmiResult = round(weight / (height * height))
+    const bmi = round(weight / (height * height))
+    const status = bmi < 18.5 ? "Underweight"
+        : bmi < 25 ? "Normal weight"
+            : bmi < 30 ? "Overweight"
+                : bmi < 35 ? "Obesity (Class I)"
+                    : bmi < 40 ? "Obesity (Class II)"
+                        : "Morbid Obesity (Class III)";
 
 
     const methods = [{
         name: "BMI",
         label: "Body Mass Index",
-        result: bmiResult,
+        result: bmi,
         Unit: "",
+        notes_or_details: status,
         expected: "18.5 - 24.9",
-        notes_or_details: ""
     }] as CalculationMethodResult[]
 
 
