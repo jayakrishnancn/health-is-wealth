@@ -1,22 +1,31 @@
-import React from "react";
 import TextField from "@mui/material/TextField";
+import React from "react";
 
 type InputProps = {
   label: string;
-  onChange: (e: React.ChangeEvent) => void;
-  onBlur: (e: React.ChangeEvent) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+  ) => void;
   name: string;
-  value: string | number;
+  value: string | number | undefined;
   type: "number" | "text";
 };
 
-export const Input = ({ type, label, onChange, onBlur, name, value }: InputProps) => {
+export const Input = ({
+  type,
+  label,
+  onChange,
+  onBlur,
+  name,
+  value,
+}: InputProps) => {
   return (
     <TextField
       fullWidth
-      type={type} 
+      type={type}
       label={label}
-      value={value}
+      value={value ?? ""}
       onChange={onChange}
       onBlur={onBlur}
       name={name}

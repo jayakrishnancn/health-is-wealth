@@ -1,16 +1,27 @@
-import React from "react";
+import { useState } from "react";
+import { Measurements } from "../utils/calculations/type";
 import { Input } from "./Input";
-import { useFormik } from "formik";
 import Results from "./Results";
 
+const INITIAL_MEASUREMENTS: Measurements = {
+  heightInCM: 171,
+  waistInCM: 100,
+  weightInKg: 80,
+};
+
 export default function BasicForm() {
-  const formik = useFormik({
-    initialValues: {
-      heightInCM: 171,
-      weightInCM: 80,
-    },
-    onSubmit: () => {},
-  });
+  const [measurements, setMeasurements] = useState<Partial<Measurements>>({});
+
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMeasurements((prev) => ({
+      ...prev,
+      [e.target.name]: Number(e.target.value) || "",
+    }));
+  };
+
+  const reCalculate = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+  ) => {};
 
   return (
     <div>
@@ -18,25 +29,30 @@ export default function BasicForm() {
         <Input
           label="Height (cm)"
           name="heightInCM"
-          value={formik.values.heightInCM}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
+          value={measurements.heightInCM}
+          onChange={handleNumberChange}
+          onBlur={reCalculate}
           type="number"
         />
         <Input
           label="Weight (kg)"
           name="weightInCM"
-          value={formik.values.weightInCM}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
+          value={measurements.weightInKg}
+          onChange={handleNumberChange}
+          onBlur={reCalculate}
+          type="number"
+        />
+        <Input
+          label="Waist circumference (cm)"
+          name="WaistcircumferenceInCM"
+          value={measurements.waistInCM}
+          onChange={handleNumberChange}
+          onBlur={reCalculate}
           type="number"
         />
       </div>
       <h1>Result</h1>
-      <Results
-        heightInCM={formik.values.heightInCM}
-        weightInCM={formik.values.weightInCM}
-      />
+      <Results {...measurements} />
     </div>
   );
 }
