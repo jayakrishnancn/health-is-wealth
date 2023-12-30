@@ -9,12 +9,12 @@ type InputProps = {
   ) => void;
   name: string;
   value: string | number | undefined;
-  type: "number" | "text";
+  type?: "number" | "text";
   autoFocus?: boolean;
 };
 
 export const Input = ({
-  type,
+  type = "number",
   label,
   onChange,
   onBlur,

@@ -4,6 +4,7 @@ export enum Inputs {
     WaistInCm = "waistInCM",
     Sex = "sex",
     Age = "age",
+    HipInCm = "hipInCM",
 }
 
 export type Measurements = {
@@ -12,6 +13,7 @@ export type Measurements = {
     waistInCM: number;
     sex: "Male" | "Female";
     age: number;
+    hipInCM: number;
 };
 
 export enum HealthRiskColorCode {

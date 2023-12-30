@@ -12,7 +12,9 @@ import Select from "./Select";
 // };
 
 export default function BasicForm() {
-  const [measurements, setMeasurements] = useState<Partial<Measurements>>({});
+  const [measurements, setMeasurements] = useState<Partial<Measurements>>({
+    sex: "Male",
+  });
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMeasurements((prev) => ({
@@ -44,6 +46,7 @@ export default function BasicForm() {
           value={measurements.sex ?? "Male"}
           onChange={handleChange}
         />
+
         <Input
           label="Height (cm)"
           name={Inputs.HeightInCM}
@@ -51,7 +54,6 @@ export default function BasicForm() {
           value={measurements[Inputs.HeightInCM]}
           onChange={handleNumberChange}
           onBlur={reCalculate}
-          type="number"
         />
         <Input
           label="Weight (Kg.)"
@@ -59,7 +61,6 @@ export default function BasicForm() {
           value={measurements[Inputs.WeightInKg]}
           onChange={handleNumberChange}
           onBlur={reCalculate}
-          type="number"
         />
         <Input
           label="Waist (cm)"
@@ -67,7 +68,6 @@ export default function BasicForm() {
           value={measurements[Inputs.WaistInCm]}
           onChange={handleNumberChange}
           onBlur={reCalculate}
-          type="number"
         />
         <Input
           label="Age"
@@ -75,7 +75,13 @@ export default function BasicForm() {
           value={measurements[Inputs.Age]}
           onChange={handleNumberChange}
           onBlur={reCalculate}
-          type="number"
+        />
+        <Input
+          label="Hip (cm)"
+          name={Inputs.HipInCm}
+          value={measurements[Inputs.HipInCm]}
+          onChange={handleNumberChange}
+          onBlur={reCalculate}
         />
       </div>
       <div className="bg-white shadow rounded pt-4 flex-1 pb-2 min-h-96">

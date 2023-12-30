@@ -1,3 +1,4 @@
+import { bai } from './bai-calculator';
 import { bmi } from './bmi';
 import { idealWaist } from './idealWaist';
 import { idealWeight } from './idealWeight';
@@ -12,7 +13,8 @@ const methods = [
   idealWeight,
   mortalityRisk,
   waist_hip_ratio,
-  idealWaist
+  idealWaist,
+  bai
 ]
 
 

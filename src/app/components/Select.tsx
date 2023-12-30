@@ -32,6 +32,7 @@ const Select: FunctionComponent<SelectProps> = ({
         id="demo-simple-select"
         value={value}
         label={label}
+        name={name}
         onChange={onChange}
         size="small"
         sx={{ color: "inherit" }}
