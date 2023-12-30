@@ -1,3 +1,4 @@
+import { SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
 import { Inputs, Measurements } from "../utils/calculations/type";
 import { Input } from "./Input";
@@ -20,7 +21,9 @@ export default function BasicForm() {
     }));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLSelectElement> | SelectChangeEvent<string>
+  ) => {
     setMeasurements((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -32,9 +35,10 @@ export default function BasicForm() {
   ) => {};
 
   return (
-    <div className="flex-1 flex gap-4">
-      <div className="flex gap-4 min-w-40 flex-col mb-8 bg-white p-2 rounded shadow">
+    <div className="flex items-start gap-4">
+      <div className="flex gap-4 min-w-40 pt-6 flex-col bg-white p-2 rounded shadow">
         <Select
+          label="Sex"
           options={["Male", "Female"]}
           name={Inputs.Sex}
           value={measurements.sex ?? "Male"}
@@ -74,7 +78,7 @@ export default function BasicForm() {
           type="number"
         />
       </div>
-      <div className="bg-white shadow rounded py-4">
+      <div className="bg-white shadow rounded pt-4 flex-1 pb-2 min-h-96">
         <h1 className="px-4 mb-4 h1 font-bold text-slate-900">Results</h1>
         <Results {...measurements} />
       </div>

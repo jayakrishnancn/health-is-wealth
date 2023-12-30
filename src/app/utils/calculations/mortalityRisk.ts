@@ -1,6 +1,6 @@
 
 import ABSIData from './data/ABSIMeanAndSD-compiled.json';
-import { CalculateResultType, CalculationMethodResult, HealthRiskColorCode, Inputs, Measurements, inverseColorCode } from "./type";
+import { CalculateResultType, CalculationMethodResult, HealthRiskColorCode, Inputs, Measurements } from "./type";
 import { validateInputs } from './utils';
 const isValidInputs = validateInputs([Inputs.HeightInCM, Inputs.WeightInKg, Inputs.WaistInCm, Inputs.Age])
 
@@ -22,7 +22,6 @@ function calculateABSIZScore(absi: number, age: number, gender: 'Male' | 'Female
         return null
     }
 
-    debugger;
     const meanABSIZScore = Number(gender == "Female" ? ABSIForAge.SmoothMeanABSIFemale : ABSIForAge.SmoothMeanABSIMale)
     const standardDeviationABSIZScore = Number(gender == "Female" ? ABSIForAge.SmoothSDABSIFemale : ABSIForAge.SmoothSDABSIMale)
 
@@ -56,7 +55,6 @@ export const mortalityRisk = (inputs: Measurements): CalculateResultType | null 
 
     const status = absiZScore ? statusBasedOnZScore(absiZScore) : HealthRiskColorCode.Average;
 
-    const colorCode = inverseColorCode(status)
 
     methods.push({
         name: "ABSI z score",
@@ -65,7 +63,7 @@ export const mortalityRisk = (inputs: Measurements): CalculateResultType | null 
         Unit: "-",
         status,
         notes_or_details: "based on https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0039504#pone.0039504.s001",
-        colorCode
+        colorCode: status
     })
 
 

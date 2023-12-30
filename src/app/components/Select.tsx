@@ -1,10 +1,18 @@
+import {
+  FormControl,
+  InputLabel,
+  Select as MUISelect,
+  MenuItem,
+  SelectChangeEvent,
+} from "@mui/material";
 import { FunctionComponent } from "react";
 
 interface SelectProps {
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (event: SelectChangeEvent<string>) => void;
   value: string;
   options: string[];
   name: string;
+  label: string;
 }
 
 const Select: FunctionComponent<SelectProps> = ({
@@ -12,18 +20,29 @@ const Select: FunctionComponent<SelectProps> = ({
   value,
   options,
   name,
+  label,
 }) => {
   return (
-    <select
-      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-      onChange={onChange}
-      value={value}
-      name={name}
-    >
-      {options.map((option) => (
-        <option key={option}>{option}</option>
-      ))}
-    </select>
+    <FormControl fullWidth>
+      <InputLabel sx={{ color: "inherit" }} id="demo-simple-select-label">
+        {label}
+      </InputLabel>
+      <MUISelect
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={value}
+        label={label}
+        onChange={onChange}
+        size="small"
+        sx={{ color: "inherit" }}
+      >
+        {options.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </MUISelect>
+    </FormControl>
   );
 };
 

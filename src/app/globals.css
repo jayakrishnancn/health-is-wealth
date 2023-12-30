@@ -33,19 +33,20 @@ table tr td {
 }
 
 .row-VeryLow {
-  background-color: #8bc34a;
+  background-color: #4caf50;
+  color: white;
 }
 .row-Low {
-  background-color: #3b82f6;
+  background-color: #9ac144;
   color: #fff !important;
 }
 .row-Average {
   background-color: #fff;
 }
 .row-High {
-  background-color: #ff9800;
+  background-color: #f2af4c;
 }
 .row-VeryHigh {
-  background-color: #d32f2f;
+  background-color: #f13636;
   color: #fff !important;
 }
