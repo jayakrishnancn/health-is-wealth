@@ -1,7 +1,8 @@
 import { round } from "../round";
-import { CalculateResultType, CalculationMethodResult, Measurements } from "./type";
+import { CalculateResultType, CalculationMethodResult, HealthRiskColorCode, Inputs, Measurements } from "./type";
+import { validateInputs } from "./utils";
 
-const isValidInputs = (inputs: Measurements) => inputs.heightInCM && inputs.weightInKg;
+const isValidInputs = validateInputs([Inputs.HeightInCM, Inputs.WeightInKg])
 
 export const bmi = (inputs: Measurements): CalculateResultType | null => {
 
@@ -11,16 +12,24 @@ export const bmi = (inputs: Measurements): CalculateResultType | null => {
 
     const weight = inputs.weightInKg;
     const height = inputs.heightInCM / 100;
-    const bmiResult = round(weight / (height * height))
+    const bmi = round(weight / (height * height))
+    const status = bmi < 18.5 ? "Underweight"
+        : bmi < 25 ? "Normal weight"
+            : bmi < 30 ? "Overweight"
+                : bmi < 35 ? "Obesity (Class I)"
+                    : bmi < 40 ? "Obesity (Class II)"
+                        : "Morbid Obesity (Class III)";
 
+    const colorCode = status === "Normal weight" ? HealthRiskColorCode.Average : status === "Overweight" ? HealthRiskColorCode.Low : HealthRiskColorCode.VeryLow
 
     const methods = [{
         name: "BMI",
         label: "Body Mass Index",
-        result: bmiResult,
-        Unit: "",
-        status: "18.5 - 24.9",
-        notes_or_details: ""
+        result: bmi,
+        Unit: "-",
+        notes_or_details: "Expected 18.5 - 24.9",
+        status: status,
+        colorCode
     }] as CalculationMethodResult[]
 
 

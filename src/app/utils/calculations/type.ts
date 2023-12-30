@@ -14,12 +14,13 @@ export type Measurements = {
     age: number;
 };
 
-export enum ColorCode {
+export enum HealthRiskColorCode {
     VeryLow = "VeryLow",
     Low = "Low",
     Average = "Average",
     High = "High",
     VeryHigh = "VeryHigh",
+    UNKNOWN = "unknown"
 }
 
 export type CalculationMethodResult = {
@@ -29,7 +30,7 @@ export type CalculationMethodResult = {
     Unit: string;
     status: number | string;
     notes_or_details: string;
-    colorCode?: ColorCode;
+    colorCode?: HealthRiskColorCode;
 };
 
 export type CalculateResultType = {
@@ -38,7 +39,7 @@ export type CalculateResultType = {
 };
 
 
-export const inverseColorCode = (code: ColorCode) => {
-    const index = [ColorCode.VeryLow, ColorCode.Low, ColorCode.Average, ColorCode.High, ColorCode.VeryHigh].findIndex(i => i === code)
-    return [ColorCode.VeryHigh, ColorCode.High, ColorCode.Average, ColorCode.Low, ColorCode.VeryLow][index];
+export const inverseColorCode = (code: HealthRiskColorCode) => {
+    const index = [HealthRiskColorCode.VeryLow, HealthRiskColorCode.Low, HealthRiskColorCode.Average, HealthRiskColorCode.High, HealthRiskColorCode.VeryHigh].findIndex(i => i === code)
+    return [HealthRiskColorCode.VeryHigh, HealthRiskColorCode.High, HealthRiskColorCode.Average, HealthRiskColorCode.Low, HealthRiskColorCode.VeryLow][index];
 }

@@ -1,7 +1,8 @@
 
 import ABSIData from './data/ABSIMeanAndSD-compiled.json';
-import { CalculateResultType, CalculationMethodResult, ColorCode, Measurements, inverseColorCode } from "./type";
-const isValidInputs = (inputs: Measurements) => inputs.heightInCM && inputs.weightInKg && inputs.waistInCM && inputs.age
+import { CalculateResultType, CalculationMethodResult, HealthRiskColorCode, Inputs, Measurements, inverseColorCode } from "./type";
+import { validateInputs } from './utils';
+const isValidInputs = validateInputs([Inputs.HeightInCM, Inputs.WeightInKg, Inputs.WaistInCm, Inputs.Age])
 
 function calculateABSI(heightInMeters: number, weightInKg: number, waistInMeters: number): number {
     // ABSI formula: ABSI = WC / (BMI ^ (2/3) * height^(1/2))
@@ -31,8 +32,8 @@ function calculateABSIZScore(absi: number, age: number, gender: 'Male' | 'Female
 }
 
 
-function statusBasedOnZScore(zScore: number): ColorCode {
-    return zScore < -0.868 ? ColorCode.VeryLow : zScore < -0.272 ? ColorCode.Low : zScore < 0.229 ? ColorCode.Average : zScore < 0.798 ? ColorCode.High : ColorCode.VeryHigh;
+function statusBasedOnZScore(zScore: number): HealthRiskColorCode {
+    return zScore < -0.868 ? HealthRiskColorCode.VeryLow : zScore < -0.272 ? HealthRiskColorCode.Low : zScore < 0.229 ? HealthRiskColorCode.Average : zScore < 0.798 ? HealthRiskColorCode.High : HealthRiskColorCode.VeryHigh;
 }
 
 
@@ -53,7 +54,7 @@ export const mortalityRisk = (inputs: Measurements): CalculateResultType | null 
 
     const absiZScore = calculateABSIZScore(absi, inputs.age, inputs.sex);
 
-    const status = absiZScore ? statusBasedOnZScore(absiZScore) : ColorCode.Average;
+    const status = absiZScore ? statusBasedOnZScore(absiZScore) : HealthRiskColorCode.Average;
 
     const colorCode = inverseColorCode(status)
 

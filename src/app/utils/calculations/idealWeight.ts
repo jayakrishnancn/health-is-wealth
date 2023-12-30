@@ -1,7 +1,9 @@
 import { round } from "../round";
-import { CalculateResultType, CalculationMethodResult, Measurements } from "./type";
+import { bmiCalculations } from "./bmi";
+import { CalculateResultType, CalculationMethodResult, HealthRiskColorCode, Inputs, Measurements } from "./type";
+import { validateInputs } from "./utils";
 
-const isValidInputs = (inputs: Measurements) => inputs.heightInCM && inputs.heightInCM > 50;
+const isValidInputs = validateInputs([Inputs.HeightInCM])
 
 
 function robinsonFormula(heightCm: number, sex: string): number {
@@ -85,13 +87,14 @@ export const idealWeight = (inputs: Measurements): CalculateResultType | null =>
 
 
 
+    const bmi = bmiCalculations(inputs);
     const methods: CalculationMethodResult[] = [{
+        ...bmi,
         name: "Based on BMI",
         label: "Ideal Weight AS per BMI",
         Unit: "Kg",
         result: `${weightLB} - ${weightUB}`,
-        notes_or_details: "",
-        status: ``,
+        notes_or_details: `You are ${bmi.status}. expected weight is between ${weightLB}Kg and ${weightUB}Kg.`,
     }];
 
     if (inputs.sex) {
@@ -142,8 +145,19 @@ export const idealWeight = (inputs: Measurements): CalculateResultType | null =>
             Unit: "Kg",
             result: lorentzFormula(inputs.heightInCM, inputs.sex),
             notes_or_details: "",
-            status: ``
+            status: ``,
         })
+
+        if (validateInputs([Inputs.WeightInKg])(inputs)) {
+            methods.forEach(method => {
+                const ideal = Number(method.result);
+                if (method.result && ideal > 10 && !method.colorCode) {
+                    method.colorCode = inputs.weightInKg <= ideal ? HealthRiskColorCode.Average : HealthRiskColorCode.High;
+                    method.status = method.colorCode === HealthRiskColorCode.High ? "High" : "Normal";
+                    method.notes_or_details = method.status === HealthRiskColorCode.High ? "Reduce weight, ideal weight should be less than " + ideal + " Kg." : "-"
+                }
+            })
+        }
 
     }
 

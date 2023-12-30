@@ -1,9 +1,7 @@
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
 } from "@mui/material";
@@ -43,7 +41,7 @@ export default function Results({
   };
 
   return (
-    <TableContainer component={Paper}>
+    <div>
       <Table size="small" sx={{ tableLayout: "fixed" }}>
         <TableHead>
           <TableRow>
@@ -93,13 +91,13 @@ export default function Results({
             })
           ) : (
             <TableRow key="error">
-              <TableCell colSpan={3} sx={{ textAlign: "center" }}>
+              <TableCell colSpan={6} sx={{ textAlign: "center" }}>
                 No Results found.
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
-    </TableContainer>
+    </div>
   );
 }

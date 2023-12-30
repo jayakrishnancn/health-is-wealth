@@ -32,8 +32,8 @@ export default function BasicForm() {
   ) => {};
 
   return (
-    <div className="flex-1">
-      <div className="flex mb-8 gap-2 bg-white p-2 rounded shadow-md">
+    <div className="flex-1 flex gap-4">
+      <div className="flex gap-4 min-w-40 flex-col mb-8 bg-white p-2 rounded shadow">
         <Select
           options={["Male", "Female"]}
           name={Inputs.Sex}
@@ -74,8 +74,10 @@ export default function BasicForm() {
           type="number"
         />
       </div>
-      <h1>Result</h1>
-      <Results {...measurements} />
+      <div className="bg-white shadow rounded py-4">
+        <h1 className="px-4 mb-4 h1 font-bold text-slate-900">Results</h1>
+        <Results {...measurements} />
+      </div>
     </div>
   );
 }

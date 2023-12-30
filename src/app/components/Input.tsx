@@ -25,6 +25,7 @@ export const Input = ({
   return (
     <TextField
       fullWidth
+      size="small"
       autoFocus={autoFocus}
       type={type}
       label={label}
