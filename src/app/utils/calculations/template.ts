@@ -19,7 +19,7 @@ export const bmi = (inputs: Measurements): CalculateResultType | null => {
         label: "Body Mass Index",
         result: bmiResult,
         Unit: "",
-        expected: "18.5 - 24.9",
+        status: "18.5 - 24.9",
         notes_or_details: ""
     }] as CalculationMethodResult[]
 

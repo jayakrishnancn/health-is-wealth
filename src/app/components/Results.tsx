@@ -19,12 +19,14 @@ export default function Results({
   weightInKg: weightInCM,
   waistInCM,
   sex,
+  age,
 }: ResultsPropType) {
   const results: CalculateResultType[] = calculateResults({
     heightInCM: heightInCM || 0,
     weightInKg: weightInCM || 0,
     waistInCM: waistInCM || 0,
     sex: sex ?? "Male",
+    age: age ?? 0,
   });
 
   const [selectedMethods, setSelectedMethods] = useState<{
@@ -49,7 +51,7 @@ export default function Results({
             <TableCell> Method </TableCell>
             <TableCell> Result </TableCell>
             <TableCell> Unit </TableCell>
-            <TableCell> Expected </TableCell>
+            <TableCell> Status </TableCell>
             <TableCell> Notes </TableCell>
           </TableRow>
         </TableHead>
@@ -62,7 +64,10 @@ export default function Results({
                   : index === 0
               );
               return (
-                <TableRow key={indicator}>
+                <TableRow
+                  className={obj?.colorCode ? `row-${obj?.colorCode}` : ""}
+                  key={indicator}
+                >
                   <TableCell> {indicator} </TableCell>
                   <TableCell>
                     <select
@@ -81,7 +86,7 @@ export default function Results({
                       : round(Number(obj?.result))}
                   </TableCell>
                   <TableCell>{obj?.Unit}</TableCell>
-                  <TableCell>{obj?.expected}</TableCell>
+                  <TableCell>{obj?.status}</TableCell>
                   <TableCell>{obj?.notes_or_details}</TableCell>
                 </TableRow>
               );

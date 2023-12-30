@@ -43,6 +43,7 @@ export default function BasicForm() {
         <Input
           label="Height (cm)"
           name={Inputs.HeightInCM}
+          autoFocus
           value={measurements[Inputs.HeightInCM]}
           onChange={handleNumberChange}
           onBlur={reCalculate}
@@ -60,6 +61,14 @@ export default function BasicForm() {
           label="Waist (cm)"
           name={Inputs.WaistInCm}
           value={measurements[Inputs.WaistInCm]}
+          onChange={handleNumberChange}
+          onBlur={reCalculate}
+          type="number"
+        />
+        <Input
+          label="Age"
+          name={Inputs.Age}
+          value={measurements[Inputs.Age]}
           onChange={handleNumberChange}
           onBlur={reCalculate}
           type="number"

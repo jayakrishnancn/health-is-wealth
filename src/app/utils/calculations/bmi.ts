@@ -1,5 +1,5 @@
 import { round } from "../round";
-import { CalculateResultType, CalculationMethodResult, Measurements } from "./type";
+import { CalculateResultType, CalculationMethodResult, ColorCode, Measurements } from "./type";
 
 const isValidInputs = (inputs: Measurements) => inputs.heightInCM && inputs.weightInKg;
 
@@ -19,14 +19,16 @@ export const bmi = (inputs: Measurements): CalculateResultType | null => {
                     : bmi < 40 ? "Obesity (Class II)"
                         : "Morbid Obesity (Class III)";
 
+    const colorCode = status === "Normal weight" ? ColorCode.Average : status === "Overweight" ? ColorCode.Low : ColorCode.VeryLow
 
     const methods = [{
         name: "BMI",
         label: "Body Mass Index",
         result: bmi,
-        Unit: "",
-        notes_or_details: status,
-        expected: "18.5 - 24.9",
+        Unit: "-",
+        notes_or_details: "Expected 18.5 - 24.9",
+        status: status,
+        colorCode
     }] as CalculationMethodResult[]
 
 

@@ -84,15 +84,15 @@ export const idealWeight = (inputs: Measurements): CalculateResultType | null =>
     const weightUB = round(bmiNormalUB * height * height);
 
 
-    const bmiMethod = {
+
+    const methods: CalculationMethodResult[] = [{
         name: "Based on BMI",
         label: "Ideal Weight AS per BMI",
         Unit: "Kg",
         result: `${weightLB} - ${weightUB}`,
         notes_or_details: "",
-        expected: ``,
-    }
-    const methods: CalculationMethodResult[] = [bmiMethod];
+        status: ``,
+    }];
 
     if (inputs.sex) {
 
@@ -102,7 +102,7 @@ export const idealWeight = (inputs: Measurements): CalculateResultType | null =>
             Unit: "Kg",
             result: robinsonFormula(inputs.heightInCM, inputs.sex),
             notes_or_details: "",
-            expected: ``
+            status: ""
         })
         methods.push({
             name: "Miller formula",
@@ -110,7 +110,7 @@ export const idealWeight = (inputs: Measurements): CalculateResultType | null =>
             Unit: "Kg",
             result: millerFormula(inputs.heightInCM, inputs.sex),
             notes_or_details: "",
-            expected: ``
+            status: ``
         })
         methods.push({
             name: "Hamwi formula",
@@ -118,7 +118,7 @@ export const idealWeight = (inputs: Measurements): CalculateResultType | null =>
             Unit: "Kg",
             result: hamwiFormula(inputs.heightInCM, inputs.sex),
             notes_or_details: "",
-            expected: ``
+            status: ``
         })
         methods.push({
             name: "Devine formula",
@@ -126,7 +126,7 @@ export const idealWeight = (inputs: Measurements): CalculateResultType | null =>
             Unit: "Kg",
             result: devineFormula(inputs.heightInCM, inputs.sex),
             notes_or_details: "",
-            expected: ``
+            status: ``
         })
         methods.push({
             name: "Broca formula",
@@ -134,7 +134,7 @@ export const idealWeight = (inputs: Measurements): CalculateResultType | null =>
             Unit: "Kg",
             result: brocaFormula(inputs.heightInCM, inputs.sex),
             notes_or_details: "",
-            expected: ``
+            status: ``
         })
         methods.push({
             name: "Lorentz formula",
@@ -142,7 +142,7 @@ export const idealWeight = (inputs: Measurements): CalculateResultType | null =>
             Unit: "Kg",
             result: lorentzFormula(inputs.heightInCM, inputs.sex),
             notes_or_details: "",
-            expected: ``
+            status: ``
         })
 
     }

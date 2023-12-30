@@ -1,12 +1,14 @@
 import { bmi } from './bmi';
 import { idealWeight } from './idealWeight';
+import { mortalityRisk } from './mortalityRisk';
 import { CalculateResultType, Measurements } from './type';
 
 
 
 const methods = [
   bmi,
-  idealWeight
+  idealWeight,
+  mortalityRisk
 ]
 
 

@@ -10,6 +10,7 @@ type InputProps = {
   name: string;
   value: string | number | undefined;
   type: "number" | "text";
+  autoFocus?: boolean;
 };
 
 export const Input = ({
@@ -19,10 +20,12 @@ export const Input = ({
   onBlur,
   name,
   value,
+  autoFocus,
 }: InputProps) => {
   return (
     <TextField
       fullWidth
+      autoFocus={autoFocus}
       type={type}
       label={label}
       value={value ?? ""}
