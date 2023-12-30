@@ -16,12 +16,14 @@ function calculateABSIZScore(absi: number, age: number, gender: 'Male' | 'Female
     if (age < 2 && age > 85) {
         return null;
     }
-    const ABSIForAge = ABSIData[age]
+    const ABSIForAge = ABSIData.find(i => Number(i.age) === age);
     if (!ABSIForAge) {
         return null
     }
-    const meanABSIZScore = Number(gender == "Female" ? ABSIForAge.MeanABSIFemale : ABSIForAge.MeanABSIMale)
-    const standardDeviationABSIZScore = Number(gender == "Female" ? ABSIForAge.SDABSIFemale : ABSIForAge.SDABSIMale)
+
+    debugger;
+    const meanABSIZScore = Number(gender == "Female" ? ABSIForAge.SmoothMeanABSIFemale : ABSIForAge.SmoothMeanABSIMale)
+    const standardDeviationABSIZScore = Number(gender == "Female" ? ABSIForAge.SmoothSDABSIFemale : ABSIForAge.SmoothSDABSIMale)
 
     // Z-Score formula: z = (X - μ) / σ
     const zScore = (absi - meanABSIZScore) / standardDeviationABSIZScore;
