@@ -20,6 +20,7 @@ export default function Results({
   waistInCM,
   sex,
   age,
+  hipInCM,
 }: ResultsPropType) {
   const results: CalculateResultType[] = calculateResults({
     heightInCM: heightInCM || 0,
@@ -27,6 +28,7 @@ export default function Results({
     waistInCM: waistInCM || 0,
     sex: sex ?? "Male",
     age: age ?? 0,
+    hipInCM: hipInCM ?? 0,
   });
 
   const [selectedMethods, setSelectedMethods] = useState<{

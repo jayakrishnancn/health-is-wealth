@@ -1,9 +1,25 @@
-import { CalculateResultType, CalculationMethodResult, HealthRiskColorCode, Inputs, Measurements } from "./type";
+import { round } from "../round";
+import {
+    CalculateResultType,
+    CalculationMethodResult,
+    HealthRiskColorCode,
+    Inputs,
+    Measurements,
+} from "./type";
 import { validateInputs } from "./utils";
 
-const isValidInputs = validateInputs([Inputs.HeightInCM, Inputs.HipInCm, Inputs.Sex, Inputs.Age])
+const isValidInputs = validateInputs([
+    Inputs.HeightInCM,
+    Inputs.HipInCm,
+    Inputs.Sex,
+    Inputs.Age,
+]);
 
-const getBAIStatus = (bai: number, age: number, sex: "Female" | "Male"): "Underweight" | "Healthy" | "Overweight" | null => {
+const getBAIStatus = (
+    bai: number,
+    age: number,
+    sex: "Female" | "Male"
+): "Underweight" | "Healthy" | "Overweight" | null => {
     if (sex === "Female") {
         if (age >= 20 && age < 40) {
             return bai < 21 ? "Underweight" : bai < 33 ? "Healthy" : "Overweight";
@@ -27,60 +43,78 @@ const getBAIStatus = (bai: number, age: number, sex: "Female" | "Male"): "Underw
         return bai < 13 ? "Underweight" : bai < 25 ? "Healthy" : "Overweight";
     }
 
-    return null
-}
+    return null;
+};
 
-const getNormalRangeBAI = (bai: number, age: number, sex: "Female" | "Male"): { min: number, max: number } | null => {
+const getNormalRangeBAI = (
+    bai: number,
+    age: number,
+    sex: "Female" | "Male"
+): { min: number; max: number } | null => {
     if (sex === "Female") {
         if (age >= 20 && age < 40) {
-            return { min: 21, max: 33 }
+            return { min: 21, max: 33 };
         }
         if (age < 60) {
-            return { min: 23, max: 35 }
+            return { min: 23, max: 35 };
         }
         if (age < 80) {
-            return { min: 25, max: 38 }
+            return { min: 25, max: 38 };
         }
         return null;
     }
 
     if (age >= 20 && age < 40) {
-        return { min: 8, max: 21 }
+        return { min: 8, max: 21 };
     }
     if (age < 60) {
-        return { min: 11, max: 23 }
+        return { min: 11, max: 23 };
     }
     if (age < 80) {
-        return { min: 13, max: 25 }
+        return { min: 13, max: 25 };
     }
     return null;
-}
+};
 
 export const bai = (inputs: Measurements): CalculateResultType | null => {
-
+    debugger;
     if (!isValidInputs(inputs)) {
         return null;
     }
 
     const heightInM = inputs.heightInCM / 100;
-    const bai = (inputs.hipInCM / (heightInM ** 1.5)) - 18
+    const h = heightInM ** 1.5;
+    const bai = round(inputs.hipInCM / h - 18);
 
     const status = getBAIStatus(bai, inputs.age, inputs.sex);
-    const normalBAI = getNormalRangeBAI(bai, inputs.age, inputs.sex)
+    const normalBAI = getNormalRangeBAI(bai, inputs.age, inputs.sex);
+    const idealHipSizeLB = !normalBAI ? "-" : round((normalBAI.min + 18) * h);
+    const idealHipSizeUB = !normalBAI ? "-" : round((normalBAI.max + 18) * h);
+    const colorCode =
+        status === "Healthy"
+            ? HealthRiskColorCode.Average
+            : HealthRiskColorCode.High;
 
-    const colorCode = status === "Healthy" ? HealthRiskColorCode.Average : HealthRiskColorCode.High
-    const methods = [{
-        name: "BAI",
-        label: "Body Adiposity Index",
-        result: bai,
-        Unit: "-",
-        notes_or_details: normalBAI ? `BAI should be from ${normalBAI.min} to ${normalBAI.max}` : "",
-        status: status,
-        colorCode
-    }] as CalculationMethodResult[]
+    const methods = [
+        {
+            name: "BAI",
+            label: "Body Adiposity Index",
+            result: bai,
+            Unit: "-",
+            notes_or_details: normalBAI
+                ? `BAI should be from ${normalBAI.min} to ${normalBAI.max}. 
+                Ideal Hip size for your height is from ${idealHipSizeLB}cm to ${idealHipSizeUB}cm.
+                ${status === "Overweight"
+                    ? "Reduce Hip Size."
+                    : status === "Underweight"
+                        ? "Increase Hip Size."
+                        : ""
+                }`
+                : "",
+            status: status,
+            colorCode,
+        },
+    ] as CalculationMethodResult[];
 
-
-
-    return { indicator: "Body Fat", methods }
-
-}
+    return { indicator: "Body Fat", methods };
+};
